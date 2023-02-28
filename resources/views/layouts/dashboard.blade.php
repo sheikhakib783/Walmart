@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>NobleUI Responsive Bootstrap 4 Dashboard Template</title>
@@ -13,6 +14,7 @@
 	<!-- inject:css -->
 	<link rel="stylesheet" href="{{asset('backend/fonts/feather-font/css/iconfont.css')}}">
 	<link rel="stylesheet" href="{{asset('backend/vendors/flag-icon-css/css/flag-icon.min.css')}}">
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 	<!-- endinject -->
   <!-- Layout styles -->  
 	<link rel="stylesheet" href="{{asset('backend/css/demo_1/style.css')}}">
@@ -36,13 +38,20 @@
       </div>
       <div class="sidebar-body">
         <ul class="nav">
+          <li class="nav-item nav-category">Website</li>
+			<li class="nav-item">
+				<a href="{{route('index')}}" class="nav-link">
+				<i class="link-icon" data-feather="box"></i>
+				<span class="link-title">Visit Website</span>
+				</a>
+			</li>
           <li class="nav-item nav-category">Main</li>
-          <li class="nav-item">
-            <a href="{{route('home')}}" class="nav-link">
-              <i class="link-icon" data-feather="box"></i>
-              <span class="link-title">Dashboard</span>
-            </a>
-          </li>
+			<li class="nav-item">
+				<a href="{{route('home')}}" class="nav-link">
+				<i class="link-icon" data-feather="box"></i>
+				<span class="link-title">Dashboard</span>
+				</a>
+			</li>
           <li class="nav-item nav-category">Admin</li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#emails" role="button" aria-expanded="false" aria-controls="emails">
@@ -58,20 +67,51 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
+		  <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#category" role="button" aria-expanded="false" aria-controls="emails">
               <i class="link-icon" data-feather="mail"></i>
-              <span class="link-title">Catagories</span>
+              <span class="link-title">Categories</span>
               <i class="link-arrow" data-feather="chevron-down"></i>
             </a>
             <div class="collapse" id="category">
               <ul class="nav sub-menu">
                 <li class="nav-item">
-                  <a href="{{route('category')}}" class="nav-link">Catagory List</a>
-                  <a href="{{route('subcategory')}}" class="nav-link">Sub Catagory List</a>
+                  <a href="{{route('category')}}" class="nav-link">Category List</a>
+                  <a href="{{route('subcategory')}}" class="nav-link">Sub Category List</a>
                 </li>
               </ul>
             </div>
+          </li>
+		  <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#Product" role="button" aria-expanded="false" aria-controls="emails">
+              <i class="link-icon" data-feather="mail"></i>
+              <span class="link-title">Products</span>
+              <i class="link-arrow" data-feather="chevron-down"></i>
+            </a>
+            <div class="collapse" id="Product">
+              <ul class="nav sub-menu">
+                <li class="nav-item">
+                  <a href="{{route('add.product')}}" class="nav-link">Add New Product</a>
+                  <a href="{{route('product.list')}}" class="nav-link">Product List</a>
+                  <a href="{{route('variation')}}" class="nav-link">Variation</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+		  <li class="nav-item">
+				<a class="nav-link" data-toggle="collapse" href="#Brand" role="button" aria-expanded="false" aria-controls="emails">
+				<i class="link-icon" data-feather="mail"></i>
+				<span class="link-title">Brand</span>
+				<i class="link-arrow" data-feather="chevron-down"></i>
+				</a>
+				<div class="collapse" id="Brand">
+				<ul class="nav sub-menu">
+					<li class="nav-item">
+					<a href="{{route('brand')}}" class="nav-link">Add New Brand</a>
+					
+					</li>
+				</ul>
+				</div>
           </li>
         </ul>
       </div>
@@ -366,7 +406,6 @@
 	
 		</div>
 	</div>
-
 	<!-- core:js -->
 	<script src="{{asset('backend/vendors/core/core.js')}}"></script>
 	<!-- endinject -->
@@ -375,6 +414,7 @@
 	<!-- inject:js -->
 	<script src="{{asset('backend/vendors/feather-icons/feather.min.js')}}"></script>
 	<script src="{{asset('backend/js/template.js')}}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 	<!-- endinject -->
 	<!-- custom js for this page -->
   <!-- end custom js for this page -->
