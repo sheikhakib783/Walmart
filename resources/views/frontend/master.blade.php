@@ -6,6 +6,8 @@
 		<meta name="author" content="Themezhub" />
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" 
+     href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 		
         <title>Kumo- Fashion eCommerce HTML Template</title>
 		 
@@ -23,7 +25,6 @@
         <link href="{{asset('/frontend/css/plugins/snackbar.min.css')}}" rel="stylesheet">
         <link href="{{asset('/frontend/css/plugins/themify.css')}}" rel="stylesheet">
         <link href="{{asset('/frontend/css/styles.css')}}" rel="stylesheet">
-
 		<style>
 			.qty {
 			width: 40px;
@@ -76,7 +77,20 @@
 							</div>
 							
 							<div class="currency-selector dropdown js-dropdown float-right mr-3">
-								<a href="javascript:void(0);" class="text-muted medium"><i class="lni lni-user mr-1"></i>Sign In / Register</a>
+								@auth('customerlogin')
+									<div class="dropdown">
+										<a style="cursor: pointer" class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+											{{Auth::guard('customerlogin')->user()->name}}
+										</a>
+										<div class="dropdown-menu">
+										<a class="dropdown-item" href="{{route('customer.profile')}}">Profile</a>
+										<a class="dropdown-item" href="{{route('customer.logout')}}">Logout</a>
+										</div>
+									</div>
+									@else{
+										<a href="{{route('customer.register.login')}}" class="text-muted medium"><i class="lni lni-user mr-1"></i>Sign In / Register</a>
+									}
+								@endauth																	
 							</div>
 						</div>
 						
@@ -116,13 +130,13 @@
 										</li>
 										<li>
 											<a href="#" onclick="openWishlist()">
-												<i class="far fa-heart fs-lg"></i><span class="dn-counter bg-success">2</span>
+												<i class="far fa-heart fs-lg"></i><span class="dn-counter bg-success">{{App\Models\Wishlist::where('customer_id', Auth::guard('customerlogin')->id())->count()}}</span>
 											</a>
 										</li>
 										<li>
 											<a href="#" onclick="openCart()">
 												<div class="d-flex align-items-center justify-content-between">
-													<i class="fas fa-shopping-basket fs-lg"></i><span class="dn-counter theme-bg">3</span>
+													<i class="fas fa-shopping-basket fs-lg"></i><span class="dn-counter theme-bg">{{App\Models\Cart::where('customer_id', Auth::guard('customerlogin')->id())->count()}}</span> 
 												</div>
 											</a>
 										</li>
@@ -295,54 +309,30 @@
 						<button onclick="closeWishlist()" class="close_slide"><i class="ti-close"></i></button>
 					</div>
 					<div class="right-ch-sideBar">
-						
+						@php
+							$sub_total = 0;
+						@endphp				
 						<div class="cart_select_items py-2">
+							@foreach (App\Models\Wishlist::where('customer_id', Auth::guard('customerlogin')->id())->get() as $wishlist)
 							<!-- Single Item -->
 							<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
 								<div class="cart_single d-flex align-items-center">
 									<div class="cart_selected_single_thumb">
-										<a href="#"><img src="assets/img/product/4.jpg" width="60" class="img-fluid" alt="" /></a>
+										<a href="#"><img src="{{asset('uploads/product/preview')}}/{{$wishlist->rel_to_product->preview}}" width="60" class="img-fluid" alt="" /></a>
 									</div>
 									<div class="cart_single_caption pl-2">
-										<h4 class="product_title fs-sm ft-medium mb-0 lh-1">Women Striped Shirt Dress</h4>
-										<p class="mb-2"><span class="text-dark ft-medium small">36</span>, <span class="text-dark small">Red</span></p>
-										<h4 class="fs-md ft-medium mb-0 lh-1">$129</h4>
+										<h4 class="product_title fs-sm ft-medium mb-0 lh-1">{{$wishlist->rel_to_product->product_name}}</h4>
+										{{-- <p class="mb-2"><span class="text-dark ft-medium small">{{$wishlist->rel_to_size->size_name}}</span>, <span class="text-dark small">{{$wishlist->rel_to_color->color_name}}</span></p> --}}
+										<h4 class="fs-md ft-medium mb-0 lh-1">&#2547;{{$wishlist->rel_to_product->after_discount}} X {{$wishlist->quantity}}</h4>
 									</div>
 								</div>
-								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
-							</div>
-							
-							<!-- Single Item -->
-							<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
-								<div class="cart_single d-flex align-items-center">
-									<div class="cart_selected_single_thumb">
-										<a href="#"><img src="assets/img/product/7.jpg" width="60" class="img-fluid" alt="" /></a>
-									</div>
-									<div class="cart_single_caption pl-2">
-										<h4 class="product_title fs-sm ft-medium mb-0 lh-1">Girls Floral Print Jumpsuit</h4>
-										<p class="mb-2"><span class="text-dark ft-medium small">36</span>, <span class="text-dark small">Red</span></p>
-										<h4 class="fs-md ft-medium mb-0 lh-1">$129</h4>
-									</div>
-								</div>
-								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
-							</div>
-							
-							<!-- Single Item -->
-							<div class="d-flex align-items-center justify-content-between px-3 py-3">
-								<div class="cart_single d-flex align-items-center">
-									<div class="cart_selected_single_thumb">
-										<a href="#"><img src="assets/img/product/8.jpg" width="60" class="img-fluid" alt="" /></a>
-									</div>
-									<div class="cart_single_caption pl-2">
-										<h4 class="product_title fs-sm ft-medium mb-0 lh-1">Girls Solid A-Line Dress</h4>
-										<p class="mb-2"><span class="text-dark ft-medium small">30</span>, <span class="text-dark small">Blue</span></p>
-										<h4 class="fs-md ft-medium mb-0 lh-1">$100</h4>
-									</div>
-								</div>
-								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
-							</div>
-							
+								<div class="fls_last"><a href="{{route('remove.wishlist', $wishlist->id)}}" class="close_slide gray"><i class="ti-close"></i></a></div>
+							</div>														
 						</div>
+						@php
+								$sub_total += $wishlist->rel_to_product->after_discount*$wishlist->quantity;
+							@endphp
+						@endforeach
 						
 						<div class="cart_action px-3 py-3">
 							<div class="form-group">
@@ -362,58 +352,33 @@
 						<button onclick="closeCart()" class="close_slide"><i class="ti-close"></i></button>
 					</div>
 					<div class="right-ch-sideBar">
-						
-						<div class="cart_select_items py-2">
-							<!-- Single Item -->
-							<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
-								<div class="cart_single d-flex align-items-center">
-									<div class="cart_selected_single_thumb">
-										<a href="#"><img src="assets/img/product/4.jpg" width="60" class="img-fluid" alt="" /></a>
+						@php
+							$sub_total = 0;
+						@endphp											
+							<div class="cart_select_items py-2">
+								@foreach (App\Models\Cart::where('customer_id', Auth::guard('customerlogin')->id())->get() as $cart)
+								<!-- Single Item -->
+								<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
+									<div class="cart_single d-flex align-items-center">
+										<div class="cart_selected_single_thumb">
+											<a href="#"><img src="{{asset('uploads/product/preview')}}/{{$cart->rel_to_product->preview}}" width="60" class="img-fluid" alt="" /></a>
+										</div>
+										<div class="cart_single_caption pl-2">
+											<h4 class="product_title fs-sm ft-medium mb-0 lh-1">{{$cart->rel_to_product->product_name}}</h4>
+											{{-- <p class="mb-2"><span class="text-dark ft-medium small">{{$cart->rel_to_size->size_name}}</span>, <span class="text-dark small">{{$cart->rel_to_color->color_name}}</span></p> --}}
+											<h4 class="fs-md ft-medium mb-0 lh-1">&#2547;{{$cart->rel_to_product->after_discount}} X {{$cart->quantity}}</h4>
+										</div>
 									</div>
-									<div class="cart_single_caption pl-2">
-										<h4 class="product_title fs-sm ft-medium mb-0 lh-1">Women Striped Shirt Dress</h4>
-										<p class="mb-2"><span class="text-dark ft-medium small">36</span>, <span class="text-dark small">Red</span></p>
-										<h4 class="fs-md ft-medium mb-0 lh-1">$129</h4>
-									</div>
-								</div>
-								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
+									<div class="fls_last"><a href="{{route('remove.cart', $cart->id)}}" class="close_slide gray"><i class="ti-close"></i></a></div>
+								</div>								
 							</div>
-							
-							<!-- Single Item -->
-							<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
-								<div class="cart_single d-flex align-items-center">
-									<div class="cart_selected_single_thumb">
-										<a href="#"><img src="assets/img/product/7.jpg" width="60" class="img-fluid" alt="" /></a>
-									</div>
-									<div class="cart_single_caption pl-2">
-										<h4 class="product_title fs-sm ft-medium mb-0 lh-1">Girls Floral Print Jumpsuit</h4>
-										<p class="mb-2"><span class="text-dark ft-medium small">36</span>, <span class="text-dark small">Red</span></p>
-										<h4 class="fs-md ft-medium mb-0 lh-1">$129</h4>
-									</div>
-								</div>
-								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
-							</div>
-							
-							<!-- Single Item -->
-							<div class="d-flex align-items-center justify-content-between px-3 py-3">
-								<div class="cart_single d-flex align-items-center">
-									<div class="cart_selected_single_thumb">
-										<a href="#"><img src="assets/img/product/8.jpg" width="60" class="img-fluid" alt="" /></a>
-									</div>
-									<div class="cart_single_caption pl-2">
-										<h4 class="product_title fs-sm ft-medium mb-0 lh-1">Girls Solid A-Line Dress</h4>
-										<p class="mb-2"><span class="text-dark ft-medium small">30</span>, <span class="text-dark small">Blue</span></p>
-										<h4 class="fs-md ft-medium mb-0 lh-1">$100</h4>
-									</div>
-								</div>
-								<div class="fls_last"><button class="close_slide gray"><i class="ti-close"></i></button></div>
-							</div>
-							
-						</div>
-						
+							@php
+								$sub_total += $cart->rel_to_product->after_discount*$cart->quantity;
+							@endphp
+						@endforeach
 						<div class="d-flex align-items-center justify-content-between br-top br-bottom px-3 py-3">
 							<h6 class="mb-0">Subtotal</h6>
-							<h3 class="mb-0 ft-medium">$1023</h3>
+							<h3 class="mb-0 ft-medium">&#2547;{{$sub_total}}</h3>
 						</div>
 						
 						<div class="cart_action px-3 py-3">
@@ -448,6 +413,7 @@
 		<script src="{{asset('/frontend/js/snackbar.min.js')}}"></script>
 		<script src="{{asset('/frontend/js/jQuery.style.switcher.js')}}"></script>
 		<script src="{{asset('/frontend/js/custom.js')}}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 		@yield('footer_script')
 		<!-- ============================================================== -->
 		<!-- This page plugins -->

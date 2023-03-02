@@ -41,10 +41,19 @@ class FrontendController extends Controller
         $str = '';
 
         foreach($sizes as $size){
-           $str .='<div class="form-check size-option form-option form-check-inline mb-2">
-                    <input class="form-check-input" type="radio" name="size" id="size'.$size->size_id.'" value="'.$size->size_id.'">
+
+            if($size->size_id==1){
+                $str = '<div class="form-check size-option form-option form-check-inline mb-2">
+                    <input checked class="form-check-input" type="radio" name="size_id" id="size'.$size->size_id.'" value="'.$size->size_id.'">
                     <label class="form-option-label" for="size'.$size->size_id.'">'.$size->rel_to_size->size_name.'</label>
                     </div>';
+            }
+            else{
+                $str .='<div class="form-check size-option form-option form-check-inline mb-2">
+                    <input checked class="form-check-input" type="radio" name="size_id" id="size'.$size->size_id.'" value="'.$size->size_id.'">
+                    <label class="form-option-label" for="size'.$size->size_id.'">'.$size->rel_to_size->size_name.'</label>
+                    </div>';
+            }    
         }
         echo $str;        
     }

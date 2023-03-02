@@ -83,7 +83,7 @@
                                 @foreach ($avilable_sizes as $size)
                                     @if ($size->size_id != 1)
                                     <div class="form-check size-option form-option form-check-inline mb-2">
-                                        <input class="form-check-input" type="radio" name="size" id="size{{$size->size_id}}">
+                                        <input class="form-check-input" type="radio" name="size_id" id="size{{$size->size_id}}">
                                         <label class="form-option-label" for="size{{$size->size_id}}">{{$size->rel_to_size->size_name}}</label>
                                     </div> 
                                     @else
@@ -110,7 +110,7 @@
                                         <input type='button' value='+' class='qtyplus plus' field='quantity' />                                
                                 </div>
                                 <div class="col-12 col-lg">
-                                    <input type="hidden" class="product_id" name="product_id">
+                                    <input type="hidden" name="product_id" value="{{$product_info->id}}">
                                     <!-- Submit -->
                                     <button type="submit" class="btn btn-block custom-height bg-dark mb-2">
                                         <i class="lni lni-shopping-basket mr-2"></i>Add to Cart 
@@ -118,7 +118,7 @@
                                 </div>
                                 <div class="col-12 col-lg-auto">
                                     <!-- Wishlist -->
-                                    <button class="btn custom-height btn-default btn-block mb-2 text-dark" data-toggle="button">
+                                    <button type="submit" class="btn custom-height btn-default btn-block mb-2 text-dark" data-toggle="button">
                                         <i class="lni lni-heart mr-2"></i>Wishlist
                                     </button>
                                 </div>
@@ -446,4 +446,24 @@
         });
     });
 </script>
+    <script>
+        @if(Session::has('cart_added'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.success("{{ session('cart_added') }}");
+        @endif
+</script>
+    <script>
+        @if(Session::has('wishlist_added'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.success("{{ session('wishlist_added') }}");
+        @endif
+    </script>
 @endsection
