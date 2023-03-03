@@ -77,8 +77,8 @@ Route::post('/cart/store',[CartController::class, 'cart_store'])->name('cart.sto
 Route::get('/remove/cart/{cart_id}',[CartController::class, 'remove_cart'])->name('remove.cart');
 
 // Wishlist
-Route::post('/wishlist/store', [WishlistController::class, 'wishlist_store'])->name('wishlist.store');
-Route::get('/remove/wishlist/{wishlist_id}', [WishlistController::class, 'remove_wishlist'])->name('remove.wishlist');
+Route::post('/wishlist/store', [CartController::class, 'wishlist_store'])->name('wishlist.store');
+Route::get('/remove/wishlist/{wishlist_id}', [CartController::class, 'remove_wishlist'])->name('remove.wishlist');
 
 
 

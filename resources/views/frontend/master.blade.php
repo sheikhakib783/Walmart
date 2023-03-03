@@ -308,35 +308,36 @@
 						<h4 class="cart_heading fs-md ft-medium mb-0">Saved Products</h4>
 						<button onclick="closeWishlist()" class="close_slide"><i class="ti-close"></i></button>
 					</div>
-					<div class="right-ch-sideBar">
+					<div class="right-ch-sideBar">	
 						@php
 							$sub_total = 0;
-						@endphp				
+						@endphp		
 						<div class="cart_select_items py-2">
-							@foreach (App\Models\Wishlist::where('customer_id', Auth::guard('customerlogin')->id())->get() as $wishlist)
+							@foreach (App\Models\Wishlist::where('customer_id', Auth::guard('customerlogin')->id())->get() as $wishlist)							
 							<!-- Single Item -->
 							<div class="d-flex align-items-center justify-content-between br-bottom px-3 py-3">
 								<div class="cart_single d-flex align-items-center">
 									<div class="cart_selected_single_thumb">
-										<a href="#"><img src="{{asset('uploads/product/preview')}}/{{$wishlist->rel_to_product->preview}}" width="60" class="img-fluid" alt="" /></a>
+										<a href="#"><img src="{{asset('uploads/product/preview')}}/{{$wishlist->rel_to_product->preview}}" width="60" class="img-fluid" alt=""/></a>
 									</div>
 									<div class="cart_single_caption pl-2">
 										<h4 class="product_title fs-sm ft-medium mb-0 lh-1">{{$wishlist->rel_to_product->product_name}}</h4>
-										{{-- <p class="mb-2"><span class="text-dark ft-medium small">{{$wishlist->rel_to_size->size_name}}</span>, <span class="text-dark small">{{$wishlist->rel_to_color->color_name}}</span></p> --}}
-										<h4 class="fs-md ft-medium mb-0 lh-1">&#2547;{{$wishlist->rel_to_product->after_discount}} X {{$wishlist->quantity}}</h4>
+										<p class="mb-2"><span class="text-dark ft-medium small">{{$wishlist->size_id == null?'NA':$wishlist->rel_to_size->size_name}}</span>, <span class="text-dark small">{{$wishlist->color_id == null?'NA':$wishlist->rel_to_color->color_name}}</span></p>
+										<h4 class="fs-md ft-medium mb-0 lh-1">&#2547;{{$wishlist->rel_to_product->after_discount}}</h4>
 									</div>
 								</div>
-								<div class="fls_last"><a href="{{route('remove.wishlist', $wishlist->id)}}" class="close_slide gray"><i class="ti-close"></i></a></div>
-							</div>														
-						</div>
-						@php
-								$sub_total += $wishlist->rel_to_product->after_discount*$wishlist->quantity;
+								<div class="fls_last"><a href="{{route('remove.wishlist', $wishlist->id)}}" class="close_slide gray">
+									<i class="ti-close"></i>
+								</a></div>
+							</div>
+							@php
+								$sub_total += $wishlist->rel_to_product->after_discount * $wishlist->quantity;
 							@endphp
-						@endforeach
-						
+							@endforeach														
+						</div>						
 						<div class="cart_action px-3 py-3">
 							<div class="form-group">
-								<button type="button" class="btn d-block full-width btn-dark-light">View Whishlist</button>
+								<a href="" class="btn d-block full-width btn-dark-light">View Whishlist</a>
 							</div>
 						</div>
 						
@@ -365,7 +366,7 @@
 										</div>
 										<div class="cart_single_caption pl-2">
 											<h4 class="product_title fs-sm ft-medium mb-0 lh-1">{{$cart->rel_to_product->product_name}}</h4>
-											{{-- <p class="mb-2"><span class="text-dark ft-medium small">{{$cart->rel_to_size->size_name}}</span>, <span class="text-dark small">{{$cart->rel_to_color->color_name}}</span></p> --}}
+											<p class="mb-2"><span class="text-dark ft-medium small">{{$cart->size_id == null? 'NA':$cart->rel_to_size->size_name}}</span>, <span class="text-dark small">{{$cart->color_id == null? 'NA':$cart->rel_to_color->color_name}}</span></p>
 											<h4 class="fs-md ft-medium mb-0 lh-1">&#2547;{{$cart->rel_to_product->after_discount}} X {{$cart->quantity}}</h4>
 										</div>
 									</div>

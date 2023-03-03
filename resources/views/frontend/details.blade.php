@@ -63,6 +63,7 @@
                     <div class="prt_03 mb-4">
                         <p>{{$product_info->short_desp}}</p>
                     </div>
+
                     <form action="{{route('cart.store')}}" class="quantity" method="POST">
                         @csrf
                         <div class="prt_04 mb-2">
@@ -112,15 +113,15 @@
                                 <div class="col-12 col-lg">
                                     <input type="hidden" name="product_id" value="{{$product_info->id}}">
                                     <!-- Submit -->
-                                    <button type="submit" class="btn btn-block custom-height bg-dark mb-2">
+                                    <button name="one" value="1" type="submit" class="btn btn-block custom-height bg-dark mb-2">
                                         <i class="lni lni-shopping-basket mr-2"></i>Add to Cart 
                                     </button>
                                 </div>
-                                <div class="col-12 col-lg-auto">
+                                <div class="col-12 col-lg-auto">                                   
                                     <!-- Wishlist -->
-                                    <button type="submit" class="btn custom-height btn-default btn-block mb-2 text-dark" data-toggle="button">
+                                    <button type="submit" name="btn" value="2" class="btn custom-height btn-default btn-block mb-2 text-dark">
                                         <i class="lni lni-heart mr-2"></i>Wishlist
-                                    </button>
+                                    </button>                                  
                                 </div>
                         </div>
                         </div>
@@ -139,7 +140,7 @@
                             </a>
                             </p>
                         </div>
-                    </form>
+                    </form> 
                 </div>
             </div>
         </div>
