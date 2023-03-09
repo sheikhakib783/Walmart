@@ -408,6 +408,7 @@
 
 
 @section('javascript')
+{{-- Get --}}
 	<script>
 		$('.color_id').click(function(){
 			var color_id = $(this).val();

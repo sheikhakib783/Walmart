@@ -99,4 +99,6 @@ Route::post('/customer/profile/update', [CustomerController::class, 'customer_pr
 
 // Checkout
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+Route::post('/getCity', [CheckoutController::class, 'getCity']);
+Route::post('/order/store', [CheckoutController::class, 'order_store'])->name('order.store');
 

@@ -33,7 +33,8 @@
         
         <div class="row justify-content-between">
             <div class="col-12 col-lg-7 col-md-12">
-                <form>
+                <form action="{{route('order.store')}}" method="POST">
+                    @csrf
                     <h5 class="mb-4 ft-medium">Billing Details</h5>
                     <div class="row mb-2">
                         
@@ -53,13 +54,13 @@
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Company</label>
-                                <input type="text" class="form-control" placeholder="Company Name (optional)" />
+                                <input name="company" type="text" class="form-control" placeholder="Company Name (optional)" />
                             </div>
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Mobile Number *</label>
-                                <input type="text" class="form-control" placeholder="Mobile Number" />
+                                <input name="billing_number" type="number" class="form-control" placeholder="Mobile Number" />
                             </div>
                         </div>                                                
                     <h5 class="mb-4 ft-medium">Shiping Details</h5>
@@ -67,64 +68,63 @@
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Full Name *</label>
-                                <input type="text" class="form-control" value="{{Auth::guard('customerlogin')->user()->name}}" />
+                                <input name="name" type="text" class="form-control" value="{{Auth::guard('customerlogin')->user()->name}}" />
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Email *</label>
-                                <input type="email" class="form-control" value="{{Auth::guard('customerlogin')->user()->email}}" />
+                                <input name="email" type="email" class="form-control" value="{{Auth::guard('customerlogin')->user()->email}}" />
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Mobile Number *</label>
-                                <input type="text" class="form-control" placeholder="Mobile Number" />
+                                <input name="mobile" type="number" class="form-control" placeholder="Mobile Number" />
                             </div>
                         </div>                           
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                             <div class="form-group">
-                                <label class="text-dark">Country *</label>
-                                <select class="custom-select">
+                                <label class="text-dark">Country *</label>                               
+                                <select class="custom-select country" name="country_id">                                                  
                                   <option value="">-- Select Country --</option>
-                                  <option value="1" selected="">Bangladesh</option>
-                                  <option value="2">United State</option>
-                                  <option value="3">United Kingdom</option>
-                                  <option value="4">China</option>
-                                  <option value="5">Pakistan</option>
-                                </select>
+                                  @foreach ($countries as $country)
+                                  <option value="{{$country->id}}">{{$country->name}}</option>
+                                  @endforeach                                 
+                                </select>                                
                             </div>
                         </div>
                         
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                             <div class="form-group">
-                                <label class="text-dark">City / Town *</label>
-                                <input type="text" class="form-control" placeholder="City / Town" />
+                                <label class="text-dark">City *</label>                               
+                                <select class="custom-select city" name="city_id">                                                  
+                                  <option value="">-- Select City --</option>                                                              
+                                </select>                                
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Address *</label>
-                                <input type="text" class="form-control" value="{{Auth::guard('customerlogin')->user()->address}}" />
+                                <input name="address" type="text" class="form-control" value="{{Auth::guard('customerlogin')->user()->address}}" />
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="form-group">
                                 <label class="text-dark">ZIP / Postcode *</label>
-                                <input type="text" class="form-control" placeholder="Zip / Postcode" />
+                                <input name="zip" type="text" class="form-control" placeholder="Zip / Postcode" />
                             </div>
                         </div>
                         
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="form-group">
                                 <label class="text-dark">Additional Information</label>
-                                <textarea class="form-control ht-50"></textarea>
+                                <textarea name="notes" class="form-control ht-50"></textarea>
                             </div>
                         </div>
                         
                     </div>
-                    </div>
-                </form>
+                    </div>                
             </div>
             
             <!-- Sidebar -->
@@ -179,15 +179,15 @@
                         <h6>Select Payment Method</h6>
                         <ul class="no-ul-list">
                             <li>
-                                <input id="c3" class="radio-custom" name="payment_method" type="radio">
+                                <input id="c3" value="1" class="radio-custom" name="payment_method" type="radio">
                                 <label for="c3" class="radio-custom-label">Cash on Delivery</label>
                             </li>
                             <li>
-                                <input id="c4" class="radio-custom" name="payment_method" type="radio">
+                                <input id="c4" value="2" class="radio-custom" name="payment_method" type="radio">
                                 <label for="c4" class="radio-custom-label">Pay With SSLCommerz</label>
                             </li>
                             <li>
-                                <input id="c5" class="radio-custom" name="payment_method" type="radio">
+                                <input id="c5" value="3" class="radio-custom" name="payment_method" type="radio">
                                 <label for="c5" class="radio-custom-label">Pay With Stripe</label>
                             </li>
                         </ul>
@@ -215,7 +215,8 @@
                 <input type="hidden" class="sub_total" name="sub_total" value="{{$sub_total}}">
                 <input type="hidden" class="discount" name="discount" value="{{session('discount')}}">
                 
-                <a class="btn btn-block btn-dark mb-3" href="checkout.html">Place Your Order</a>
+                <button type="submit" class="btn btn-block btn-dark mb-3" href="checkout.html">Place Your Order</button>
+            </form>
             </div>
             
         </div>
@@ -234,6 +235,32 @@
         var total = sub_total - discount +(parseInt(charge));
         $('#grand_total').html(total);
         $('#charge').html(charge);
+    });
+    // Select 2
+    $(document).ready(function() {
+    $('.country').select2();
+    $('.city').select2();
+});
+</script>
+{{-- City --}}
+<script>
+    $('.country').change(function(){
+        var country_id = $(this).val();  
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type:'POST',
+            url:'/getCity',
+            data:{'country_id' : country_id},
+            success:function(data){
+                 $('.city').html(data);					
+            }
+        });
     });
 </script>
 @endsection
