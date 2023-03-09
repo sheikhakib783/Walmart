@@ -113,6 +113,13 @@
 				</ul>
 				</div>
           </li>
+		  <li class="nav-item">
+				<a class="nav-link"  href="{{route('coupon')}}">
+				<i class="link-icon" data-feather="mail"></i>
+				<span class="link-title">Coupon</span>
+				<i class="link-arrow" data-feather="chevron-down"></i>
+				</a>				
+          </li>
         </ul>
       </div>
     </nav>

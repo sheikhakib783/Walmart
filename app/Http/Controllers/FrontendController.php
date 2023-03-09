@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Coupon;
 use App\Models\Inventory;
 use App\Models\Product;
 use App\Models\ProductGallery;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
@@ -57,5 +61,48 @@ class FrontendController extends Controller
         }
         echo $str;        
     }
+
+
+    //  View Cart Page
+
+    function cart(Request $request){
+        // Coupon
+        $discount = 0;
+        $type = '';
+        $mesg = '';
+
+        if(isset($request->coupon_name)){
+            if(Coupon::where('coupon_name', $request->coupon_name)->exists()){
+                if(Carbon::now()->format('Y-m-d') <= Coupon::where('coupon_name', $request->coupon_name)->first()->expire_date){
+                    if(Coupon::where('coupon_name', $request->coupon_name)->first()->type == 1){
+                        $discount = 20;
+                        $type = 1;
+                    }
+                    else{    
+                        $type = 2;            
+                        $discount = 100;                    
+                    }
+                }
+                else{
+                    $mesg = 'Coupon Code Expired';                
+                    $discount = 0;
+                }
+            }
+            else{
+                $mesg = 'Coupon Code Does not Exist';
+                $discount = 0;
+            }
+        }
+
+        $carts = Cart::where('customer_id', Auth::guard('customerlogin')->id())->get();
+        return view('frontend.cart', [
+            'carts'=>$carts,
+            'discount'=>$discount,
+            'mesg'=>$mesg,
+            'type'=>$type,
+        ]);
+    }
+            
+        
   
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 02, 2023 at 07:25 AM
+-- Generation Time: Mar 08, 2023 at 07:17 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -73,9 +73,10 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `customer_id`, `product_id`, `color_id`, `size_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(10, 1, 14, 3, 1, 3, '2023-03-02 05:30:31', '2023-03-02 05:42:10'),
 (11, 3, 14, NULL, NULL, 1, '2023-03-02 06:00:06', NULL),
-(12, 2, 14, 10, 1, 2, '2023-03-02 06:17:00', NULL);
+(14, 2, 15, 7, 11, 1, '2023-03-06 05:23:14', '2023-03-08 13:59:00'),
+(16, 2, 18, 3, 1, 4, '2023-03-06 06:21:45', '2023-03-08 13:59:00'),
+(17, 1, 16, 3, 3, 3, '2023-03-06 07:21:35', '2023-03-06 07:45:01');
 
 -- --------------------------------------------------------
 
@@ -135,6 +136,30 @@ INSERT INTO `colors` (`id`, `color_name`, `color_code`, `created_at`, `updated_a
 (9, 'Yellow', '#FFFF00', '2023-02-11 04:56:54', NULL),
 (10, 'Silver', '#C0C0C0', '2023-02-21 05:42:46', NULL),
 (11, 'Gold', '#FFD700', '2023-02-21 05:43:38', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coupons`
+--
+
+CREATE TABLE `coupons` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `coupon_name` varchar(255) NOT NULL,
+  `type` int(11) NOT NULL,
+  `amount` int(11) NOT NULL,
+  `expire_date` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `coupons`
+--
+
+INSERT INTO `coupons` (`id`, `coupon_name`, `type`, `amount`, `expire_date`, `created_at`, `updated_at`) VALUES
+(1, 'Thirty', 1, 30, '2023-03-20', '2023-03-07 13:38:55', NULL),
+(2, 'Sara', 2, 100, '2023-03-15', '2023-03-07 13:39:50', NULL);
 
 -- --------------------------------------------------------
 
@@ -260,7 +285,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (22, '2023_02_15_092201_create_inventories_table', 9),
 (24, '2023_03_01_110934_create_customerlogins_table', 10),
 (28, '2023_03_01_231338_create_carts_table', 11),
-(29, '2023_03_02_110000_create_wishlists_table', 12);
+(29, '2023_03_02_110000_create_wishlists_table', 12),
+(31, '2023_03_07_184716_create_coupons_table', 13);
 
 -- --------------------------------------------------------
 
@@ -504,6 +530,13 @@ CREATE TABLE `wishlists` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Dumping data for table `wishlists`
+--
+
+INSERT INTO `wishlists` (`id`, `customer_id`, `product_id`, `color_id`, `size_id`, `quantity`, `created_at`, `updated_at`) VALUES
+(1, 2, 15, 8, 5, 1, '2023-03-06 05:23:27', NULL);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -530,6 +563,12 @@ ALTER TABLE `categories`
 -- Indexes for table `colors`
 --
 ALTER TABLE `colors`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `coupons`
+--
+ALTER TABLE `coupons`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -623,7 +662,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -636,6 +675,12 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `colors`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `coupons`
+--
+ALTER TABLE `coupons`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `customerlogins`
@@ -659,7 +704,7 @@ ALTER TABLE `inventories`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -701,7 +746,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -197,8 +197,63 @@
 			<!-- ============================================================== -->
 			
                 @yield('content')
-
 			<!-- ======================= Customer Features ======================== -->
+		<section class="px-0 py-3 br-top">
+			<div class="container">
+				<div class="row">
+					
+					<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+						<div class="d-flex align-items-center justify-content-start py-2">
+							<div class="d_ico">
+								<i class="fas fa-shopping-basket"></i>
+							</div>
+							<div class="d_capt">
+								<h5 class="mb-0">Free Shipping</h5>
+								<span class="text-muted">Capped at $10 per order</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+						<div class="d-flex align-items-center justify-content-start py-2">
+							<div class="d_ico">
+								<i class="far fa-credit-card"></i>
+							</div>
+							<div class="d_capt">
+								<h5 class="mb-0">Secure Payments</h5>
+								<span class="text-muted">Up to 6 months installments</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+						<div class="d-flex align-items-center justify-content-start py-2">
+							<div class="d_ico">
+								<i class="fas fa-shield-alt"></i>
+							</div>
+							<div class="d_capt">
+								<h5 class="mb-0">15-Days Returns</h5>
+								<span class="text-muted">Shop with fully confidence</span>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+						<div class="d-flex align-items-center justify-content-start py-2">
+							<div class="d_ico">
+								<i class="fas fa-headphones-alt"></i>
+							</div>
+							<div class="d_capt">
+								<h5 class="mb-0">24x7 Fully Support</h5>
+								<span class="text-muted">Get friendly support</span>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</section>
+		<!-- ======================= Customer Features ======================== -->
 			
 			<!-- ============================ Footer Start ================================== -->
 			<footer class="dark-footer skin-dark-footer style-2">
@@ -384,7 +439,7 @@
 						
 						<div class="cart_action px-3 py-3">
 							<div class="form-group">
-								<button type="button" class="btn d-block full-width btn-dark-light">View Cart</button>
+								<a href="{{route('cart')}}" type="submite" class="btn d-block full-width btn-dark-light">View Cart</a>
 							</div>
 						</div>
 						
@@ -396,10 +451,10 @@
 			
 
 		</div>
+
 		<!-- ============================================================== -->
 		<!-- End Wrapper -->
 		<!-- ============================================================== -->
-
 		<!-- ============================================================== -->
 		<!-- All Jquery -->
 		<!-- ============================================================== -->

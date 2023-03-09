@@ -31,6 +31,9 @@
                     @if (session('wrong'))
                     <div class="alert alert-danger">{{session('wrong')}}</div>
                     @endif
+                    @if (session('login'))
+                    <div class="alert alert-danger">{{session('login')}}</div>
+                    @endif
                     <form action="{{route('customer.login')}}" class="border p-3 rounded" method="POST">
                         @csrf				
                         <div class="form-group">

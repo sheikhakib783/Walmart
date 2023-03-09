@@ -3,6 +3,8 @@
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +20,8 @@ use App\Http\Controllers\WishlistController;
 Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::get('/product/details/{product_id}', [FrontendController::class, 'details'])->name('details');
 Route::post('/getSize', [FrontendController::class, 'getSize']);
+// Route::post('/getQuantity', [FrontendController::class, 'getQuantity']);
+Route::get('/cart', [FrontendController::class, 'cart'])->name('cart');
 
 // others
 Auth::routes();
@@ -75,12 +79,15 @@ Route::post('/inventory/store', [InventoryController::class, 'inventory_store'])
 // Cart
 Route::post('/cart/store',[CartController::class, 'cart_store'])->name('cart.store');
 Route::get('/remove/cart/{cart_id}',[CartController::class, 'remove_cart'])->name('remove.cart');
+Route::post('/cart/update',[CartController::class, 'cart_update'])->name('cart.update');
+
+// Coupon
+Route::get('/coupon', [CouponController::class, 'coupon'])->name('coupon');
+Route::post('/coupon/store', [CouponController::class, 'coupon_store'])->name('coupon.store');
 
 // Wishlist
 Route::post('/wishlist/store', [CartController::class, 'wishlist_store'])->name('wishlist.store');
 Route::get('/remove/wishlist/{wishlist_id}', [CartController::class, 'remove_wishlist'])->name('remove.wishlist');
-
-
 
 // Customer Login
 Route::get('customer/register/login', [CustomerController::class, 'customer_reg_log'])->name('customer.register.login');
@@ -89,4 +96,7 @@ Route::post('/customer/login', [CustomerController::class, 'customer_login'])->n
 Route::get('/customer/logout', [CustomerController::class, 'customer_logout'])->name('customer.logout');
 Route::get('/customer/profile', [CustomerController::class, 'customer_profile'])->name('customer.profile');
 Route::post('/customer/profile/update', [CustomerController::class, 'customer_profile_update'])->name('customer.update');
+
+// Checkout
+Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 
