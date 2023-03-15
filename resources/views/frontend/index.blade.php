@@ -136,14 +136,14 @@
 									@endif
                                     <div class="card-body p-0">
                                         <div class="shop_thumb position-relative">
-                                            <a class="card-img-top d-block overflow-hidden" href="{{route('details',$product->id)}}"><img class="card-img-top" src="{{asset('uploads/product/preview')}}/{{$product->preview}}" alt="..."></a>
+                                            <a class="card-img-top d-block overflow-hidden" href="{{route('details', $product->id)}}"><img class="card-img-top" src="{{asset('uploads/product/preview')}}/{{$product->preview}}" alt="..."></a>
                                         </div>
                                     </div>
                                     <div class="card-footer b-0 p-0 pt-2 bg-white d-flex align-items-start justify-content-between">
                                         <div class="text-left">
                                             <div class="text-left">
                                                 <div class="elso_titl"><span class="small">{{$product->rel_to_category->category_name}}</span></div>
-                                                <h5 class="fs-md mb-0 lh-1 mb-1"><a href="{{route('details',$product->id)}}">{{$product->product_name}}</a></h5>
+                                                <h5 class="fs-md mb-0 lh-1 mb-1"><a href="{{route('details', $product->id)}}">{{$product->product_name}}</a></h5>
                                                 <div class="star-rating align-items-center d-flex justify-content-left mb-2 p-0">
                                                     <i class="fas fa-star filled"></i>
                                                     <i class="fas fa-star filled"></i>

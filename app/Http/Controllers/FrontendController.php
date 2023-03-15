@@ -31,8 +31,8 @@ class FrontendController extends Controller
        $avilable_colors = Inventory::where('product_id',$product_info->id)->groupBy('color_id')->selectRaw('count(*) as total, color_id')->get();
        $avilable_sizes = Inventory::where('product_id',$product_info->id)->groupBy('size_id')->selectRaw('count(*) as total, size_id')->get();
         return view('frontend.details',[
-            'product_info'=>$product_info,
-            'galleries'=>$galleries,
+            'product_info'=>$product_info,        
+            'galleries'=>$galleries,        
             'releted_products'=>$releted_products,
             'avilable_colors'=>$avilable_colors,
             'avilable_sizes'=>$avilable_sizes,

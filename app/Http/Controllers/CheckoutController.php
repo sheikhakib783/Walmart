@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CustomerInvoiceMail;
 use App\Models\BillingDetails;
 use App\Models\Cart;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Inventory;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\ShippingDetails;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
 
 class CheckoutController extends Controller
 {
@@ -23,7 +28,7 @@ class CheckoutController extends Controller
             'carts'=>$carts,
         ]);
     }
-// City 
+ // City 
     function getCity(Request $request){
         $str = '<option value="">--- Select City ----</option>';
         $cities = City::where('country_id', $request->country_id)->get();
@@ -32,7 +37,7 @@ class CheckoutController extends Controller
         }
         echo $str;
     }
-// Order Table
+ // Order Table
     function order_store(Request $request){
         $random_number2 = random_int(1000000, 9999999);
         $city = City::find($request->city_id);  
@@ -71,9 +76,39 @@ class CheckoutController extends Controller
             'zip'=>$request->zip,
             'notes'=>$request->notes,
             'created_at'=>Carbon::now(),
+            
         ]);
-        return back();
+        // Order Product
+        $carts = Cart::where('customer_id', Auth::guard('customerlogin')->id())->get();
+
+        foreach($carts as $cart){
+            OrderProduct::insert([
+                'order_id'=>$order_id,
+                'customer_id'=>Auth::guard('customerlogin')->id(),
+                'product_id'=>$cart->product_id,
+                'price'=>$cart->rel_to_product->after_discount,
+                'color_id'=>$cart->color_id,
+                'size_id'=>$cart->size_id,
+                'quantity'=>$cart->quantity,
+                'created_at'=>Carbon::now(),
+            ]);
+
+            Inventory::where('product_id', $cart->product_id)->where('color_id', $cart->color_id)->where('size_id', $cart->size_id)->decrement('quantity', $cart->quantity);
+
+            // Cart::find($cart->id)->delete();
+        } 
+        // $mail = Auth::guard('customerlogin')->user()->email;
+        // Mail::to($mail)->send(new CustomerInvoiceMail());
+
+        $order_id_new = substr($order_id, 1);       
+        return redirect()->route('order.success', $order_id_new)->withOrdersuccess('Cart Added!');        
     }
-
-
+    function order_success($order_id){
+       if(session('ordersuccess')){
+        return view('frontend.order_success', compact('order_id'));
+       }
+       else{
+        abort('404');
+       }
+    }
 }

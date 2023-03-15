@@ -20,12 +20,12 @@ use App\Http\Controllers\WishlistController;
 Route::get('/', [FrontendController::class, 'index'])->name('index');
 Route::get('/product/details/{product_id}', [FrontendController::class, 'details'])->name('details');
 Route::post('/getSize', [FrontendController::class, 'getSize']);
-// Route::post('/getQuantity', [FrontendController::class, 'getQuantity']);
+Route::post('/getQuantity', [FrontendController::class, 'getQuantity']);
 Route::get('/cart', [FrontendController::class, 'cart'])->name('cart');
 
 // others
 Auth::routes();
-
+Route::get('/admin/logout', [HomeController::class, 'logout'])->name('admin.logout');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 //Users
@@ -101,4 +101,5 @@ Route::post('/customer/profile/update', [CustomerController::class, 'customer_pr
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 Route::post('/getCity', [CheckoutController::class, 'getCity']);
 Route::post('/order/store', [CheckoutController::class, 'order_store'])->name('order.store');
+Route::get('/order/success/{order_id}', [CheckoutController::class, 'order_success'])->name('order.success');
 

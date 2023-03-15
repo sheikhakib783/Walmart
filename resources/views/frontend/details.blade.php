@@ -27,20 +27,19 @@
 					<div class="row justify-content-between">
 					
 						<div class="col-xl-5 col-lg-6 col-md-12 col-sm-12">
-							<div class="quick_view_slide">
-                                
-								@foreach ($product_gallery as $gal)
-                                    <div class="single_view_slide"><a href="{{asset('uploads/products/gallery')}}/{{$gal->product_gallery}}" data-lightbox="roadtrip" class="d-block mb-4"><img src="{{asset('uploads/products/gallery')}}/{{$gal->product_gallery}}" class="img-fluid rounded" alt="" />
+							<div class="quick_view_slide">                                
+								@foreach ($galleries as $gallery)
+                                    <div class="single_view_slide"><a href="{{asset('uploads/product/gallery')}}/{{$gallery->gallery}}" data-lightbox="roadtrip" class="d-block mb-4"><img src="{{asset('uploads/product/gallery')}}/{{$gallery->gallery}}" class="img-fluid rounded" alt="" />
                                 </a>
                                 </div>	
-                                @endforeach							
+                                @endforeach								
 							</div>
 						</div>
 						
 						<div class="col-xl-7 col-lg-6 col-md-12 col-sm-12">
 							<div class="prd_details pl-3">
 								
-								<div class="prt_01 mb-1"><span class="text-light bg-info rounded px-2 py-1">{{$product_info->rel_to_cat->category_name}}</span></div>
+								<div class="prt_01 mb-1"><span class="text-light bg-info rounded px-2 py-1">{{$product_info->rel_to_category->category_name}}</span></div>
 								<div class="prt_02 mb-3">
 									<h2 class="ft-bold mb-1">{{$product_info->product_name}}</h2>
 									<div class="text-left">
@@ -61,20 +60,19 @@
 								</div>
 
 								{{-- form start --}}
-								<form action="{{route('add_cart')}}" method="POST">
+								<form action="{{route('cart.store')}}" class="quantity" method="POST">
 									@csrf
 									
 								<div class="prt_04 mb-2">
 									<p class="d-flex align-items-center mb-0 text-dark ft-medium">Color: </p>
                                                          
 									<div class="text-left">                         
-                                        @foreach ($colors as $color)
+                                        @foreach ($avilable_colors as $color)
 										
 											<div class="form-check form-option form-check-inline mb-1">
 											<input data-product="{{$product_info->id}}"class="color_id form-check-input" type="radio" value="{{$color->color_id}}" name="color_id" id="white{{$color->color_id}}">
 
-											<label class="form-option-label rounded-circle" for="white{{$color->color_id}}"><span class="form-option-color  rounded-circle" style="background:{{$color->color_rel->color_code}}"></span></label>
-
+											<label class="form-option-label rounded-circle" for="white{{$color->color_id}}"><span class="form-option-color  rounded-circle" style="background:{{$color->rel_to_color->color_code}}"></span></label>
 										</div>							
                                         @endforeach                                  
 									</div>                                 
@@ -86,19 +84,19 @@
 									<div class="text-left pb-0 pt-2" id="size">
 										
 
-                                        @foreach ($sizes as $size)
+                                        @foreach ($avilable_sizes as $size)
 											
 										@if($size->size_id == 1)
 											<div class="form-check size-option form-option form-check-inline mb-2">
 											<input checked class="form-check-input" type="radio" name="size_id" id="size_id" value="{{$size->size_id}}">
 
-											<label class="form-option-label" for="size_id">{{$size->size_rel->size_name}}</label>
+											<label class="form-option-label" for="size_id">{{$size->rel_to_size->size_name}}</label>
 										</div>
 										@else
 											<div class="form-check size-option form-option form-check-inline mb-2">
 											<input class="form-check-input" type="radio" name="size_id" id="size_id" value="{{$size->size_id}}">
 
-											<label class="form-option-label" for="size_id">{{$size->size_rel->size_name}}</label>
+											<label class="form-option-label" for="size_id">{{$size->rel_to_size->size_name}}</label>
 										</div>
 										
 										@endif
@@ -375,7 +373,7 @@
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 							<div class="slide_items">		
 								<!-- single Item -->
-                                @forelse ( $related_product as $matching )
+                                @forelse ( $releted_products as $matching )
                                    <div class="single_itesm">
 									<div class="product_grid card b-0 mb-0">
 										<div class="badge bg-success text-white position-absolute ft-regular ab-left text-upper">Sale</div>

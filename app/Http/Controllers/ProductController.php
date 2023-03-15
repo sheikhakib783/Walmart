@@ -88,9 +88,9 @@ class ProductController extends Controller
     }
 
     function product_list(){
-        $all_products = Product::all();
+        $all_products = Product::all();            
         return view('admin.product.product_list', [
-            'all_products'=>$all_products,
+            'all_products'=>$all_products,           
         ]);
     }
 // Product Edit
