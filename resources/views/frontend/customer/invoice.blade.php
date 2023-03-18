@@ -73,7 +73,7 @@
                           </tr>
                           <tr>
                             <td style="font-size: 12px; color: #5b5b5b; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: left;">
-                              Hello, Philip Brooks.
+                              Hello, {{App\Models\BillingDetails::where('order_id', $data)->first()->name}}. 
                               <br> Thank you for shopping from our store and for your order.
                             </td>
                           </tr>
@@ -101,8 +101,8 @@
                           </tr>
                           <tr>
                             <td style="font-size: 12px; color: #5b5b5b; font-family: 'Open Sans', sans-serif; line-height: 18px; vertical-align: top; text-align: right;">
-                              <small>ORDER</small> #800000025<br />
-                              <small>MARCH 4TH 2016</small>
+                              <small>ORDER</small> {{$data}}<br />
+                              <small>{{App\Models\Order::where('order_id', $data)->first()->created_at}}</small>
                             </td>
                           </tr>
                         </tbody>
@@ -156,23 +156,16 @@
                       <tr>
                         <td height="10" colspan="4"></td>
                       </tr>
+                      @foreach (App\Models\OrderProduct::where('order_id', $data)->get() as $product)                                              
                       <tr>
                         <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #ff0000;  line-height: 18px;  vertical-align: top; padding:10px 0;" class="article">
-                          Beats Studio Over-Ear Headphones
+                          {{$product->rel_to_product->product_name}}
                         </td>
-                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;"><small>MH792AM/A</small></td>
-                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;" align="center">1</td>
-                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33;  line-height: 18px;  vertical-align: top; padding:10px 0;" align="right">$299.95</td>
-                      </tr>
-                      <tr>
-                        <td height="1" colspan="4" style="border-bottom:1px solid #e4e4e4"></td>
-                      </tr>
-                      <tr>
-                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #ff0000;  line-height: 18px;  vertical-align: top; padding:10px 0;" class="article">Beats RemoteTalk Cable</td>
-                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;"><small>MHDV2G/A</small></td>
-                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;" align="center">1</td>
-                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33;  line-height: 18px;  vertical-align: top; padding:10px 0;" align="right">$29.95</td>
-                      </tr>
+                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;"><small>{{$product->rel_to_product->sku}}</small></td>
+                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e;  line-height: 18px;  vertical-align: top; padding:10px 0;" align="center">{{$product->quantity}}</td>
+                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #1e2b33;  line-height: 18px;  vertical-align: top; padding:10px 0;" align="right">&#2547;{{$product->price}}</td>
+                      </tr> 
+                      @endforeach               
                       <tr>
                         <td height="1" colspan="4" style="border-bottom:1px solid #e4e4e4"></td>
                       </tr>
@@ -208,15 +201,23 @@
                           Subtotal
                         </td>
                         <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; white-space:nowrap;" width="80">
-                          $329.90
+                          {{App\Models\Order::where('order_id', $data)->first()->subtotal}}
                         </td>
                       </tr>
                       <tr>
                         <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; ">
-                          Shipping &amp; Handling
+                         Delivery Charge
                         </td>
                         <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; ">
-                          $15.00
+                          {{App\Models\Order::where('order_id', $data)->first()->charge}}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; ">
+                         Discount
+                        </td>
+                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; ">
+                          {{App\Models\Order::where('order_id', $data)->first()->discount}}
                         </td>
                       </tr>
                       <tr>
@@ -224,15 +225,9 @@
                           <strong>Grand Total (Incl.Tax)</strong>
                         </td>
                         <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #000; line-height: 22px; vertical-align: top; text-align:right; ">
-                          <strong>$344.90</strong>
+                          <strong>{{App\Models\Order::where('order_id', $data)->first()->total}}</strong>
                         </td>
-                      </tr>
-                      <tr>
-                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #b0b0b0; line-height: 22px; vertical-align: top; text-align:right; "><small>TAX</small></td>
-                        <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #b0b0b0; line-height: 22px; vertical-align: top; text-align:right; ">
-                          <small>$72.40</small>
-                        </td>
-                      </tr>
+                      </tr>                                          
                     </tbody>
                   </table>
                   <!-- /Table Total -->
@@ -279,7 +274,7 @@
                               </tr>
                               <tr>
                                 <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 20px; vertical-align: top; ">
-                                  Philip Brooks<br> Public Wales, Somewhere<br> New York NY<br> 4468, United States<br> T: 202-555-0133
+                                  {{App\Models\BillingDetails::where('order_id', $data)->first()->name}}<br> {{App\Models\BillingDetails::where('order_id', $data)->first()->address}}<br> T:{{App\Models\BillingDetails::where('order_id', $data)->first()->mobile}}
                                 </td>
                               </tr>
                             </tbody>
@@ -301,8 +296,23 @@
                               </tr>
                               <tr>
                                 <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 20px; vertical-align: top; ">
-                                  Credit Card<br> Credit Card Type: Visa<br> Worldpay Transaction ID: <a href="#" style="color: #ff0000; text-decoration:underline;">4185939336</a><br>
-                                  <a href="#" style="color:#b0b0b0;">Right of Withdrawal</a>
+                                  @php
+                                    $payment_method = App\Models\Order::where('order_id', $data)->first()->payment_method;
+                                  @endphp
+                                  @if ($payment_method == 1)
+                                        Cash On Delivery
+                                  @elseif ($payment_method == 2)  
+                                  SSL Commerz
+                                  @else
+                                  Stripe Payment                                        
+                                  @endif
+                                  <br>  Transaction ID: <a href="#" style="color: #ff0000; text-decoration:underline;">
+                                    @if ($payment_method == 1)
+                                      NA                                    
+                                    @else
+                                      {{ App\Models\Order::where('order_id', $data)->first()->tran_id}}                                
+                                    @endif
+                                  </a><br>                            
                                 </td>
                               </tr>
                             </tbody>
@@ -337,36 +347,15 @@
                               </tr>
                               <tr>
                                 <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 20px; vertical-align: top; ">
-                                  Sup Inc<br> Another Place, Somewhere<br> New York NY<br> 4468, United States<br> T: 202-555-0171
+                                  @php
+                                    $city_id = App\Models\ShippingDetails::where('order_id', $data)->first()->city_id;
+                                    $country_id = App\Models\ShippingDetails::where('order_id', $data)->first()->country_id;
+                                  @endphp
+                                  {{App\Models\ShippingDetails::where('order_id', $data)->first()->address}}<br> {{App\Models\City::where('id', $city_id)->first()->name}}<br> {{App\Models\ShippingDetails::where('order_id', $data)->first()->zip}}, {{App\Models\Country::where('id', $country_id)->first()->name}}<br> T: {{App\Models\ShippingDetails::where('order_id', $data)->first()->mobile}}
                                 </td>
                               </tr>
                             </tbody>
-                          </table>
-
-
-                          <table width="220" border="0" cellpadding="0" cellspacing="0" align="right" class="col">
-                            <tbody>
-                              <tr class="hiddenMobile">
-                                <td height="35"></td>
-                              </tr>
-                              <tr class="visibleMobile">
-                                <td height="20"></td>
-                              </tr>
-                              <tr>
-                                <td style="font-size: 11px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 1; vertical-align: top; ">
-                                  <strong>SHIPPING METHOD</strong>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td width="100%" height="10"></td>
-                              </tr>
-                              <tr>
-                                <td style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #5b5b5b; line-height: 20px; vertical-align: top; ">
-                                  UPS: U.S. Shipping Services
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                          </table>                          
                         </td>
                       </tr>
                     </tbody>

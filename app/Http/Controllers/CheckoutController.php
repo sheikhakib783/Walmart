@@ -97,8 +97,8 @@ class CheckoutController extends Controller
 
             // Cart::find($cart->id)->delete();
         } 
-        // $mail = Auth::guard('customerlogin')->user()->email;
-        // Mail::to($mail)->send(new CustomerInvoiceMail());
+        $mail = Auth::guard('customerlogin')->user()->email;
+        Mail::to($mail)->send(new CustomerInvoiceMail($order_id));
 
         $order_id_new = substr($order_id, 1);       
         return redirect()->route('order.success', $order_id_new)->withOrdersuccess('Cart Added!');        

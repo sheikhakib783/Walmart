@@ -33,6 +33,9 @@
         
         <div class="row justify-content-between">
             <div class="col-12 col-lg-7 col-md-12">
+                @if (session('success'))	
+					<div class="mb-3 mt-2 alert alert-success">{{session('success')}}</div>
+				@endif
                 <form action="{{route('order.store')}}" method="POST">
                     @csrf
                     <h5 class="mb-4 ft-medium">Billing Details</h5>
@@ -153,7 +156,7 @@
                             </div>
                         </li>
                         @php
-                            $sub_total = $cart->rel_to_product->after_discount*$cart->quantity;
+                            $sub_total += $cart->rel_to_product->after_discount * $cart->quantity
                         @endphp
                         @endforeach
                     </ul>

@@ -38,7 +38,7 @@
 						
 						<div class="col-xl-7 col-lg-6 col-md-12 col-sm-12">
 							<div class="prd_details pl-3">
-								
+																
 								<div class="prt_01 mb-1"><span class="text-light bg-info rounded px-2 py-1">{{$product_info->rel_to_category->category_name}}</span></div>
 								<div class="prt_02 mb-3">
 									<h2 class="ft-bold mb-1">{{$product_info->product_name}}</h2>
@@ -67,13 +67,12 @@
 									<p class="d-flex align-items-center mb-0 text-dark ft-medium">Color: </p>
                                                          
 									<div class="text-left">                         
-                                        @foreach ($avilable_colors as $color)
-										
+                                        @foreach ($colors as $color)
 											<div class="form-check form-option form-check-inline mb-1">
-											<input data-product="{{$product_info->id}}"class="color_id form-check-input" type="radio" value="{{$color->color_id}}" name="color_id" id="white{{$color->color_id}}">
+											<input data-product="{{$product_info->id}}"class="form-check-input color_id" type="radio" value="{{$color->color_id}}" name="color_id" id="white{{$color->color_id}}" value="{{$color->color_id}}">
 
 											<label class="form-option-label rounded-circle" for="white{{$color->color_id}}"><span class="form-option-color  rounded-circle" style="background:{{$color->rel_to_color->color_code}}"></span></label>
-										</div>							
+										    </div>							
                                         @endforeach                                  
 									</div>                                 
 								</div>
@@ -84,7 +83,7 @@
 									<div class="text-left pb-0 pt-2" id="size">
 										
 
-                                        @foreach ($avilable_sizes as $size)
+                                        @foreach ($sizes as $size)
 											
 										@if($size->size_id == 1)
 											<div class="form-check size-option form-option form-check-inline mb-2">
@@ -94,7 +93,7 @@
 										</div>
 										@else
 											<div class="form-check size-option form-option form-check-inline mb-2">
-											<input class="form-check-input" type="radio" name="size_id" id="size_id" value="{{$size->size_id}}">
+											<input checked class="form-check-input" type="radio" name="size_id" id="size_id" value="{{$size->size_id}}">
 
 											<label class="form-option-label" for="size_id">{{$size->rel_to_size->size_name}}</label>
 										</div>
@@ -109,11 +108,16 @@
 									<div class="form-row mb-7">
 										<div class="col-12 col-lg-auto">
 											<!-- Quantity -->
-											<select name="quantity" class="mb-2 custom-select">
+											{{-- <select name="quantity" class="mb-2 custom-select">
 												@for ($i = 1; $i < 15; $i++)
 													<option value="{{$i}}" >{{$i}}</option>
 												@endfor
-											</select>
+											</select> --}}
+											<form action="" class="quantity">
+												<input type='button' value='-' class='qtyminus minus' field='quantity' />
+												<input type='text' name='quantity' value='1' class='qty' />
+												<input type='button' value='+' class='qtyplus plus' field='quantity' />
+											</form>
 										</div>
 										<div class="col-12 col-lg">
 											<!-- Submit -->
@@ -405,7 +409,7 @@
 @endsection
 
 
-@section('javascript')
+@section('footer_script')
 {{-- Get --}}
 	<script>
 		$('.color_id').click(function(){
@@ -414,11 +418,10 @@
 
 			
 			$.ajaxSetup({
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-				}
-			});
-
+					headers: {
+						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					}
+				});
 			$.ajax({
 				type:'POST',
 				url:'/getSize',
@@ -429,16 +432,35 @@
 			});
 		});
 	</script>
-
+	{{--quantity  --}}
 <script>
-	@if(Session::has('success'))
-			toastr.options =
-			{
-				"closeButton" : true,
-				"progressBar" : true
-			}
-			toastr.success("{{session('success')}}");
-	@endif
+jQuery(document).ready(($) => {
+        $('.quantity').on('click', '.plus', function(e) {
+            let $input = $(this).prev('input.qty');
+            let val = parseInt($input.val());
+            $input.val( val+1 ).change();
+        });
+ 
+        $('.quantity').on('click', '.minus', 
+            function(e) {
+            let $input = $(this).next('input.qty');
+            var val = parseInt($input.val());
+            if (val > 1) {
+                $input.val( val-1 ).change();
+            } 
+        });
+    });
+</script>
+{{-- Toster --}}
+<script>
+@if(Session::has('cart_added'))
+  toastr.options =
+  {
+  	"closeButton" : true,
+  	"progressBar" : true
+  }
+  		toastr.success("{{ session('cart_added') }}");
+  @endif
 </script>
 <script>
 	@if(Session::has('delete'))

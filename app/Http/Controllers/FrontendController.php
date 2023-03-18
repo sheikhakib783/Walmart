@@ -28,14 +28,14 @@ class FrontendController extends Controller
        $product_info = Product::find($product_id);
        $galleries = ProductGallery::where('product_id', $product_id)->get();
        $releted_products = Product::where('category_id', $product_info->category_id)->where('id', '!=', $product_id)->get();
-       $avilable_colors = Inventory::where('product_id',$product_info->id)->groupBy('color_id')->selectRaw('count(*) as total, color_id')->get();
-       $avilable_sizes = Inventory::where('product_id',$product_info->id)->groupBy('size_id')->selectRaw('count(*) as total, size_id')->get();
+       $colors = Inventory::where('product_id',$product_info->id)->groupBy('color_id')->selectRaw('count(*) as total, color_id')->get();
+       $sizes = Inventory::where('product_id',$product_info->id)->groupBy('size_id')->selectRaw('count(*) as total, size_id')->get();
         return view('frontend.details',[
             'product_info'=>$product_info,        
             'galleries'=>$galleries,        
             'releted_products'=>$releted_products,
-            'avilable_colors'=>$avilable_colors,
-            'avilable_sizes'=>$avilable_sizes,
+            'colors'=>$colors,
+            'sizes'=>$sizes,
         ]);
     }
 
