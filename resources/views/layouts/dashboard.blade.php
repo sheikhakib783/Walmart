@@ -120,6 +120,13 @@
 				<i class="link-arrow" data-feather="chevron-down"></i>
 				</a>				
           </li>
+		  <li class="nav-item">
+				<a class="nav-link"  href="{{route('orders')}}">
+				<i class="link-icon" data-feather="mail"></i>
+				<span class="link-title">Order</span>
+				<i class="link-arrow" data-feather="chevron-down"></i>
+				</a>				
+          </li>
         </ul>
       </div>
     </nav>

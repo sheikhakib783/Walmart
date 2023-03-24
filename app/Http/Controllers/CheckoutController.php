@@ -100,6 +100,55 @@ class CheckoutController extends Controller
         $mail = Auth::guard('customerlogin')->user()->email;
         Mail::to($mail)->send(new CustomerInvoiceMail($order_id));
 
+        // Mobile SMS Code
+                                    
+                $total = $request->sub_total+$request->charge - ($request->discount);
+                $url = "http://bulksmsbd.net/api/smsapi";
+                $api_key = "VywwqwoTzPxKRcMT1CVw";
+                $senderid = "akib sheikh";
+                $number = $request->billing_number;
+                $message = "Congratulations! Your order has been placed! Please ready TK ".$total;
+            
+                $data = [
+                    "api_key" => $api_key,
+                    "senderid" => $senderid,
+                    "number" => $number,
+                    "message" => $message
+                ];
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                $response = curl_exec($ch);
+                curl_close($ch);
+
+                // // old
+                //    $total = $request->sub_total+$request->charge - ($request->discount);
+                //     $url = "http://66.45.237.70/api.php";
+                //     $number=$request->billing_number;
+                //     $text="Congratulations! Your order has been placed! Please ready TK ".$total;
+                //     $data= array(
+                //     'username'=>"01834833973",
+                //     'password'=>"TE47RSDM",
+                //     'number'=>"$number",
+                //     'message'=>"$text"
+                //     );
+
+                    
+                //     $ch = curl_init(); // Initialize cURL
+                //     curl_setopt($ch, CURLOPT_URL,$url);
+                //     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+                //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                //     $smsresult = curl_exec($ch);
+                //     $p = explode("|",$smsresult);
+                //     $sendstatus = $p[0];
+
+                
+           
+     
+
         $order_id_new = substr($order_id, 1);       
         return redirect()->route('order.success', $order_id_new)->withOrdersuccess('Cart Added!');        
     }

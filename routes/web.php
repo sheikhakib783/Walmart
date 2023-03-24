@@ -12,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\WishlistController;
@@ -96,10 +97,14 @@ Route::post('/customer/login', [CustomerController::class, 'customer_login'])->n
 Route::get('/customer/logout', [CustomerController::class, 'customer_logout'])->name('customer.logout');
 Route::get('/customer/profile', [CustomerController::class, 'customer_profile'])->name('customer.profile');
 Route::post('/customer/profile/update', [CustomerController::class, 'customer_profile_update'])->name('customer.update');
+Route::get('/myorder', [CustomerController::class, 'myorder'])->name('myorder');
 
 // Checkout
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
 Route::post('/getCity', [CheckoutController::class, 'getCity']);
 Route::post('/order/store', [CheckoutController::class, 'order_store'])->name('order.store');
 Route::get('/order/success/{order_id}', [CheckoutController::class, 'order_success'])->name('order.success');
+
+// My Order
+Route::get('/orders', [OrderController::class, 'orders'])->name('orders');
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customerlogin;
+use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -128,5 +129,12 @@ class CustomerController extends Controller
                 }
             }
         }
+    }
+// MyOrder
+    function myorder(){
+        $myorder = Order::where('customer_id', Auth::guard('customerlogin')->id())->get();
+        return view('frontend.customer.myorder', [
+            'myorder'=>$myorder
+        ]);
     }
 }
