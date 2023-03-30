@@ -15,6 +15,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\WishlistController;
 
 // fontend
@@ -107,4 +108,19 @@ Route::get('/order/success/{order_id}', [CheckoutController::class, 'order_succe
 
 // My Order
 Route::get('/orders', [OrderController::class, 'orders'])->name('orders');
+Route::post('/status/update', [OrderController::class, 'status_update'])->name('status.update');
+Route::get('/download/invoice {order_id}', [OrderController::class, 'download_invoice'])->name('download.invoice');
+
+
+// SSLCOMMERZ Start
+Route::get('/pay', [SslCommerzPaymentController::class, 'index']);
+Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
+
+Route::post('/success', [SslCommerzPaymentController::class, 'success']);
+Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
+Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+
+Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
+//SSLCOMMERZ END
+
 

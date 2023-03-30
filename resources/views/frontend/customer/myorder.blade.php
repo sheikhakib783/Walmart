@@ -31,7 +31,7 @@
                             @if (Auth::guard('customerlogin')->user()->photo == null)
                             <img src="{{ Avatar::create(Auth::guard('customerlogin')->user()->name)->toBase64() }}" />
                         @else
-                            <img src="{{asset('uploads/customer')}}/{{Auth::guard('customerlogin')->user()->name}}" alt="profile">
+                            <img src="{{asset('uploads/customer')}}/{{Auth::guard('customerlogin')->user()->photo}}" width="100" alt="profile">
                         @endif
                         </div>
                         <div class="dash_caption">
@@ -61,11 +61,33 @@
                         <div class="olh_flex">
                             <p class="m-0 p-0"><span class="text-muted">Order Number</span></p>
                             <h6 class="mb-0 ft-medium">{{$order->order_id}}</h6>
-                        </div>
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-12 ml-auto">
+                        </div>                       
+                        <div class="">
                             <p class="mb-1 p-0"><span class="text-muted">Status</span></p>
-                            <div class="delv_status"><span class="ft-medium small text-warning bg-light-warning rounded px-3 py-1">Completed</span></div>
-                        </div>		
+                            <div class="delv_status"><span class="ft-medium small text-warning bg-light-warning rounded px-3 py-1">
+                            @php
+                               if ($order->status == 0) {
+                                    echo 'Placed';
+                               } 
+                               elseif ($order->status == 1) {
+                                    echo 'Processing';
+                               }
+                               elseif ($order->status == 2) {
+                                    echo 'Pick Up';
+                               }
+                               elseif ($order->status == 3) {
+                                    echo 'Redy to Delivery';
+                               }
+                               else {
+                                echo 'Delivered';
+                               }
+                            @endphp
+                            </span>
+                        </div>
+                        </div>	
+                        <div>
+                            <a href="{{route('download.invoice', $order->id)}}" class="btn btn-light">Download Invoice</a>
+                        </div>	
                     </div>                    
                     <div class="ord_list_body text-left">
                         @foreach (App\Models\OrderProduct::where('order_id', $order->order_id)->get() as $product)                                                    
@@ -90,8 +112,8 @@
                     <div class="ord_list_footer d-flex align-items-center justify-content-between br-top px-3">
                         <div class="col-xl-12 col-lg-12 col-md-12 pl-0 py-2 olf_flex d-flex align-items-center justify-content-between">
                             <div class="olf_flex_inner"><p class="m-0 p-0"><span class="text-muted medium text-left">Order Date: {{$order->created_at->format('d-M-Y')}}</span></p></div>
-                            <div class="olf_inner_right"><h5 class="mb-0 fs-sm ft-bold">Total: &#2547;{{$order->total}}</h5></div>
-                        </div>
+                            <div class="olf_inner_right"><h5 class="mb-0 fs-sm ft-bold">Total: &#2547;{{$order->total}}</h5></div>                            
+                        </div>                        
                     </div>
                 </div>
                 <!-- End Order List -->

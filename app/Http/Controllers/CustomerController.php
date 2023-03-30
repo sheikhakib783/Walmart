@@ -132,7 +132,7 @@ class CustomerController extends Controller
     }
 // MyOrder
     function myorder(){
-        $myorder = Order::where('customer_id', Auth::guard('customerlogin')->id())->get();
+        $myorder = Order::where('customer_id', Auth::guard('customerlogin')->id())->orderBy('created_at','DESC')->get();
         return view('frontend.customer.myorder', [
             'myorder'=>$myorder
         ]);

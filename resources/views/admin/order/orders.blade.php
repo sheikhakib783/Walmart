@@ -55,17 +55,21 @@
                         </td>
                         <td>
                             <div class="dropdown mb-2">
-                                <button class="btn p-0" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-                                  <a class="dropdown-item d-flex align-items-center" href=""><span class="">Placed</span></a>                                  
-                                  <a class="dropdown-item d-flex align-items-center" href=""><span class="">Processing</span></a>                                  
-                                  <a class="dropdown-item d-flex align-items-center" href=""><span class="">Pick Up</span></a>                                  
-                                  <a class="dropdown-item d-flex align-items-center" href=""><span class="">Redy to Delivery</span></a>                                  
-                                  <a class="dropdown-item d-flex align-items-center" href=""><span class="">Delivered</span></a>                                  
-                                </div>
-                              </div>
+                               <form action="{{route('status.update')}}" method="POST">
+                                @csrf
+                                    <input type="hidden" name="order_id" value="{{$order->order_id}}">
+                                    <button class="btn p-0" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                        <button value="0" name="status" class="dropdown-item d-flex align-items-center" href=""><span class="">Placed</span></button>                                  
+                                        <button value="1" name="status" class="dropdown-item d-flex align-items-center" href=""><span class="">Processing</span></button>                                  
+                                        <button value="2" name="status" class="dropdown-item d-flex align-items-center" href=""><span class="">Pick Up</span></button>                                  
+                                        <button value="3" name="status" class="dropdown-item d-flex align-items-center" href=""><span class="">Redy to Delivery</span></button>                                  
+                                        <button value="4" name="status" class="dropdown-item d-flex align-items-center" href=""><span class="">Delivered</span></button>                                  
+                                    </div>
+                               </form>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

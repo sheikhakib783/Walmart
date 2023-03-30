@@ -82,6 +82,7 @@
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
                             <div class="form-group">
+                                <input type="hidden" name="customer_id" value="{{Auth::guard('customerlogin')->id()}}">
                                 <label class="text-dark">Mobile Number *</label>
                                 <input name="mobile" type="number" class="form-control" placeholder="Mobile Number" />
                             </div>
