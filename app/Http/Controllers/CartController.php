@@ -13,8 +13,8 @@ class CartController extends Controller
     function cart_store(Request $request){
         if(Auth::guard('customerlogin')->id()){
             if($request->one == 1){
-                if(Cart::where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id)->exists()){
-                    Cart::where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id)->increment('quantity', $request->quantity);
+                if(Cart::where('customer_id', Auth::guard('customerlogin')->id())->where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id)->exists()){
+                    Cart::where('customer_id', Auth::guard('customerlogin')->id())->where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id)->increment('quantity', $request->quantity);
                     return back()->with('cart_added', 'Cart Successfuly Added');
                 }
                 else{
@@ -27,7 +27,8 @@ class CartController extends Controller
                         'created_at'=>Carbon::now(),
                     ]);
                 } 
-            }else{
+            }
+            else{
                 if(Wishlist::where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id)->exists()){
                     Wishlist::where('product_id', $request->product_id)->where('color_id', $request->color_id)->where('size_id', $request->size_id)->increment('quantity', $request->quantity);
                     return back()->with('cart_added', 'Cart Successfuly Added');

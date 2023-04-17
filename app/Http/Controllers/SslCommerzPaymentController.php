@@ -43,7 +43,7 @@ class SslCommerzPaymentController extends Controller
         # In "orders" table, order unique identity is "transaction_id". "status" field contain status of the transaction, "amount" is the order amount to be paid and "currency" is for storing Site Currency which will be checked with paid currency.
 
         $post_data = array();
-        $post_data['total_amount'] = '10'; # You cant not pay less than 10
+        $post_data['total_amount'] = $amount; # You cant not pay less than 10
         $post_data['currency'] = "BDT";
         $post_data['tran_id'] = uniqid(); // tran_id must be unique
 
@@ -104,7 +104,7 @@ class SslCommerzPaymentController extends Controller
                 'country_id' => $data['country_id'],
                 'city_id' => $data['city_id'],
                 'shipping_address' => $data['address'],
-                'zip' => $data['zip'],
+                'zip_code' => $data['zip'],
                 'notes' => $data['notes'],
                 'sub_total' => $data['sub_total'],
                 'discount' => $data['discount'],

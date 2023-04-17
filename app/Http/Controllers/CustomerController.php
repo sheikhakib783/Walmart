@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customerlogin;
 use App\Models\Order;
+use App\Models\OrderProduct;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -136,5 +137,14 @@ class CustomerController extends Controller
         return view('frontend.customer.myorder', [
             'myorder'=>$myorder
         ]);
+    }
+
+// Review 
+    function review_store(Request $request){
+        OrderProduct::where('customer_id', Auth::guard('customerlogin')->id())->where('product_id', $request->product_id)->update([
+            'review'=>$request->review,
+            'star'=>$request->rating,
+        ]);
+        return back();
     }
 }

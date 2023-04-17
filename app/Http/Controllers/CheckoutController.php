@@ -156,7 +156,8 @@ class CheckoutController extends Controller
             return redirect('/pay')->with('data', $data);
         }
         else{
-            echo 'strip';
+            $data = $request->all();
+            return redirect('/stripe')->with('data', $data);
         }              
     }
     function order_success($order_id){

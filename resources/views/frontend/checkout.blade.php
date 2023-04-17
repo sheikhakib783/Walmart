@@ -219,7 +219,7 @@
                 <input type="hidden" class="sub_total" name="sub_total" value="{{$sub_total}}">
                 <input type="hidden" class="discount" name="discount" value="{{session('discount')}}">
                 
-                <button type="submit" class="btn btn-block btn-dark mb-3" href="checkout.html">Place Your Order</button>
+                <button class="btn btn-block btn-dark mb-3" type="submit">Place Your Order</button>
             </form>
             </div>
             

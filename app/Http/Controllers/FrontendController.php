@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Inventory;
+use App\Models\OrderProduct;
 use App\Models\Product;
 use App\Models\ProductGallery;
 use Carbon\Carbon;
@@ -30,12 +31,14 @@ class FrontendController extends Controller
        $releted_products = Product::where('category_id', $product_info->category_id)->where('id', '!=', $product_id)->get();
        $colors = Inventory::where('product_id',$product_info->id)->groupBy('color_id')->selectRaw('count(*) as total, color_id')->get();
        $sizes = Inventory::where('product_id',$product_info->id)->groupBy('size_id')->selectRaw('count(*) as total, size_id')->get();
+       $all_review = OrderProduct::where('product_id', $product_id)->whereNotNull('review')->get();
         return view('frontend.details',[
             'product_info'=>$product_info,        
             'galleries'=>$galleries,        
             'releted_products'=>$releted_products,
             'colors'=>$colors,
             'sizes'=>$sizes,
+            'all_review'=>$all_review,
         ]);
     }
 
